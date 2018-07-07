@@ -1,6 +1,7 @@
 var srv = require('./server'),
     path = require('path'),
     fs = require('fs');
+
 server = srv.getServer();
 
 function malta_dev_srv(obj, options) {

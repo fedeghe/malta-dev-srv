@@ -7,6 +7,10 @@
 
 This plugin can be started on: **.html**
 
+**It needs to be installed globally**
+
+`> npm i -g malta-dev-srv`  
+
 It starts a really raw simple http server on the host and port needed, default values are the following:
 - host: localhost
 - port: 3001
