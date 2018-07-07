@@ -12,19 +12,21 @@ This plugin can be started on: **.html**
 `> npm i -g malta-dev-srv`  
 
 It starts a really raw simple http server on the host and port needed, default values are the following:
-- host: localhost
-- port: 3001
+- **host**: localhost
+- **port**: 3001
+- **folder**: the one where malta is started from
 
 
-Sample usage:  
+
+So for example if we want to start it automatically at (first) build, using _public_ as webRoot, with a specific ip on a specific port:  
 ```
-> malta app/views/index.html . -plugins=malta-dev-srv[port:12345,host:\'192.168.2.103\']
+> malta app/views/index.html public -plugins=malta-dev-srv[port:12345,host:\'192.168.2.103\',folder:\"public\"]
 ```
 or in the .json file :
 ```
 {
     ...,
-    "app/views/index.html" : "public -plugins=malta-dev-srv",
+    "app/views/index.html" : "public -plugins=malta-dev-srv[folder:\"public\"]",
     ...
 }
 ```

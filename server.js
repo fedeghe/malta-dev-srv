@@ -13,17 +13,15 @@ class server {
         this.name = path.basename(path.dirname(__filename));
         this.started = false;
     }
-    start(port, host) {
+    start(port, host, folder) {
         if (this.started) return;
-        console.log('started');
         this.started = true;
-        console.log(`${this.name.green()} started on port # ${port} (http://${host}:${port})`);
+        console.log(`> ${this.name.blue()} started on port # ${port} (http://${host}:${port})`);
+        console.log(`> webroot is ${folder}`.blue());
         let self = this;
         this.dir = process.cwd();
         this.srv = http.createServer();
-        // process.on('SIGTERM', this.stop);
-        // process.on('SIGINT', this.stop);
-        this.srv.on('close', this.stop)
+
         this.srv.on('request', (req, res) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Request-Method', '*');
@@ -33,7 +31,7 @@ class server {
             // parse URL
             let parsedUrl = url.parse(req.url),
                 // extract URL path
-                pathname = path.resolve(self.dir + parsedUrl.pathname),
+                pathname = path.resolve(folder + parsedUrl.pathname),
                 // maps file extention to MIME types
                 mimeType = {
                     ".ico": "image/x-icon",
@@ -89,13 +87,6 @@ class server {
             });
         });
         this.srv.listen(parseInt(port));
-    }
-    restart() {
-
-    }
-    stop() {
-        console.log(this.name.yellow() + ' shut down');
-        // this.srv.close();
     }
 }
 module.exports = {
