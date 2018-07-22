@@ -9,7 +9,7 @@ function malta_dev_srv(obj, options) {
         start = new Date(),
         msg,
         port = null,
-        folder = '/',
+        folder = './',
         host = 'localhost';
 
     options = options || {};
