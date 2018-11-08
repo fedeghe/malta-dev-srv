@@ -14,6 +14,6 @@
   "license": "MIT",
   "homepage": "https://github.com/fedeghe/malta-dev-srv#readme",
   "dependencies": {
-    "malta": ">=3.8.11"
+    "malta": ">=3.8.14"
   }
 }
