@@ -30,3 +30,16 @@ or in the .json file :
     ...
 }
 ```
+
+From v 1.1.0 it is also possible to serve what previously was served thx to a single entry point mechanism (like for example an .htaccess file for apache).  
+In that case there are two more informations that need to be given to the plugin: 
+- the entry point, using the `staticEp` param
+- static/free paths, using the `staticFree` param (pipe separated paths)  
+for example:
+```
+{
+    ...
+    "source/index.html" :  ". -plugins=malta-dev-srv[staticEp:'index.html',staticFree:'app|media']",
+    ...
+}
+```

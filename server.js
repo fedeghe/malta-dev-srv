@@ -7,20 +7,53 @@ var http = require('http'),
 let srv = null;
 
 class server {
-    constructor() {
+    constructor () {
         this.srv = null;
         this.dir = null;
         this.name = path.basename(path.dirname(__filename));
         this.started = false;
     }
-    start(port, host, folder) {
-        if (this.started) return;
+
+    init (port, host, folder) {
         this.started = true;
         console.log(`> ${this.name.blue()} started on port # ${port} (http://${host}:${port})`);
         console.log(`> webroot is ${folder}`.blue());
-        let self = this;
         this.dir = process.cwd();
         this.srv = http.createServer();
+        return this;
+    }
+
+    staticStart (port, host, folder, entryPoint, entryFree) {
+        if (this.started) return;
+        this.init(port, host, folder);
+
+        const rx = new RegExp('^/' + entryFree + '/');
+        this.srv.on('request', (req, res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Request-Method', '*');
+            res.setHeader('Access-Control-Allow-Methods', '*');
+            res.setHeader('Access-Control-Allow-Headers', '*');
+            try {
+                let parsedUrl = url.parse(req.url),
+                    lookup = parsedUrl.pathname,
+                    where = path.join(
+                        folder,
+                        lookup.match(rx) ? lookup : '/' + entryPoint
+                    );
+
+                res.end(fs.readFileSync(where));
+            } catch (e) {
+                console.log(e);
+                console.log('Server EXITED');
+                process.exit();
+            }
+        });
+        this.srv.listen(parseInt(port));
+    }
+
+    start (port, host, folder) {
+        if (this.started) return;
+        let self = this.init(port, host, folder);
 
         this.srv.on('request', (req, res) => {
             res.setHeader('Access-Control-Allow-Origin', '*');

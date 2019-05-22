@@ -17,7 +17,11 @@ function malta_dev_srv(obj, options) {
     host = options.host || host;
     folder = path.resolve(process.cwd(), options.folder || folder);
 
-    server.start(port, host, folder);
+    if (options.staticEp) {
+        server.staticStart(port, host, folder, options.staticEp, options.staticFree);
+    } else {
+        server.start(port, host, folder);
+    }
 
     return function (solve, reject) {
         solve(obj);
