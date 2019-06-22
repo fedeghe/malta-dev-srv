@@ -6,6 +6,14 @@ var http = require('http'),
 
 let srv = null;
 
+const mimes =require('./mimes.json'),
+    setHeader = res => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Request-Method', '*');
+        res.setHeader('Access-Control-Allow-Methods', '*');
+        res.setHeader('Access-Control-Allow-Headers', '*');
+    };
+
 class server {
     constructor () {
         this.srv = null;
@@ -29,10 +37,7 @@ class server {
 
         const rx = new RegExp('^/' + entryFree + '/');
         this.srv.on('request', (req, res) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Request-Method', '*');
-            res.setHeader('Access-Control-Allow-Methods', '*');
-            res.setHeader('Access-Control-Allow-Headers', '*');
+            setHeader(res);
             try {
                 let parsedUrl = url.parse(req.url),
                     lookup = parsedUrl.pathname,
@@ -56,32 +61,14 @@ class server {
         let self = this.init(port, host, folder);
 
         this.srv.on('request', (req, res) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Request-Method', '*');
-            res.setHeader('Access-Control-Allow-Methods', '*');
-            res.setHeader('Access-Control-Allow-Headers', '*');
+            setHeader(res);
 
             // parse URL
             let parsedUrl = url.parse(req.url),
                 // extract URL path
                 pathname = path.resolve(folder + parsedUrl.pathname),
                 // maps file extention to MIME types
-                mimeType = {
-                    ".ico": "image/x-icon",
-                    ".html": "text/html",
-                    ".js": "text/javascript",
-                    ".json": "application/json",
-                    ".css": "text/css",
-                    ".png": "image/png",
-                    ".jpg": "image/jpeg",
-                    ".wav": "audio/wav",
-                    ".mp3": "audio/mpeg",
-                    ".svg": "image/svg+xml",
-                    ".pdf": "application/pdf",
-                    ".doc": "application/msword",
-                    ".eot": "appliaction/vnd.ms-fontobject",
-                    ".ttf": "aplication/font-sfnt"
-                },
+                mimeType = mimes,
                 do404 = () => {
                     res.statusCode = 404;
                     res.write('<!DOCTYPE html><body style="font-family:verdana">');
