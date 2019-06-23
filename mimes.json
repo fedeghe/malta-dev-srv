@@ -145,6 +145,7 @@
     ".pbm": "image/x-portable-bitmap",
     ".pgm": "image/x-portable-graymap",
     ".ppm": "image/x-portable-pixmap",
+    ".png": "image/png",
     ".rgb": "image/x-rgb",
     ".xbm": "image/x-xbitmap",
     ".xpm": "image/x-xpixmap",
