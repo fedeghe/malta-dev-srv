@@ -1,8 +1,7 @@
 var http = require('http'),
     url = require('url'),
     fs = require('fs'),
-    path = require('path'),
-    ext;
+    path = require('path');
 
 let srv = null;
 
@@ -97,7 +96,7 @@ class server {
                         res.end("Error getting the file");
                     } else {
                         // based on the URL path, extract the file extention. e.g. .js, .doc, ...
-                        ext = path.parse(pathname).ext;
+                        let ext = path.parse(pathname).ext;
                         res.statusCode = 200;
                         // if the file is found, set Content-type and send data
                         res.setHeader("Content-type", mimeType[ext] || "text/plain");

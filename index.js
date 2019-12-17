@@ -2,20 +2,15 @@ var srv = require('./server'),
     path = require('path'),
     fs = require('fs');
 
-server = srv.getServer();
-
-function malta_dev_srv(obj, options) {
-    var self = this,
+function malta_dev_srv(obj, options = {}) {
+    const server = srv.getServer(),
+        self = this,
         start = new Date(),
-        msg,
-        port = null,
-        folder = './',
-        host = 'localhost';
-
-    options = options || {};
-    port = options.port || 3001;
-    host = options.host || host;
-    folder = path.resolve(process.cwd(), options.folder || folder);
+        folder = path.resolve(process.cwd(), options.folder || './'),
+        host = options.host || '127.0.0.1',
+        port = options.port || 3001;
+        
+    let msg = '';
 
     if (options.staticEp) {
         server.staticStart(port, host, folder, options.staticEp, options.staticFree);
