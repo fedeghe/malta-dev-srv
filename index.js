@@ -1,6 +1,5 @@
-var srv = require('./server'),
-    path = require('path'),
-    fs = require('fs');
+const srv = require('./server'),
+    path = require('path');
 
 function malta_dev_srv(obj, options = {}) {
     const server = srv.getServer(),
@@ -18,7 +17,7 @@ function malta_dev_srv(obj, options = {}) {
         server.start(port, host, folder);
     }
 
-    return function (solve, reject) {
+    return (solve, reject) => {
         solve(obj);
         self.notifyAndUnlock(start, msg);
     }

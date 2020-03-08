@@ -18,8 +18,5 @@
     ],
     "author": "Federico Ghedina <fedeghe@gmail.com>",
     "license": "MIT",
-    "homepage": "https://github.com/fedeghe/malta-dev-srv#readme",
-    "dependencies": {
-        "malta": "^4.0.4"
-    }
+    "homepage": "https://github.com/fedeghe/malta-dev-srv#readme"
 }

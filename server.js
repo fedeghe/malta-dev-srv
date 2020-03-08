@@ -1,11 +1,11 @@
-var http = require('http'),
-    url = require('url'),
-    fs = require('fs'),
-    path = require('path');
-
 let srv = null;
 
-const mimes =require('./mimes.json'),
+const http = require('http'),
+    url = require('url'),
+    fs = require('fs'),
+    path = require('path'),
+
+    mimes =require('./mimes.json'),
     setHeader = res => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Request-Method', '*');
