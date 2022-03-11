@@ -4,6 +4,7 @@ const http = require('http'),
     url = require('url'),
     fs = require('fs'),
     path = require('path'),
+    child_process = require('child_process'),
 
     mimes =require('./mimes.json'),
     setHeader = res => {
@@ -21,9 +22,16 @@ class server {
         this.started = false;
     }
 
+    open(url) {
+        const start = (process.platform == 'darwin'? 'open': process.platform == 'win32'? 'start': 'xdg-open');
+        child_process.exec(start + ' ' + url);
+    }
+
     init (port, host, folder) {
         this.started = true;
-        console.log(`> ${this.name.blue()} started on port # ${port} (http://${host}:${port})`);
+        const url = `http://${host}:${port}`;
+        console.log(`> ${this.name.blue()} started on port # ${port} (${url})`);
+        this.open(url)
         console.log(`> webroot is ${folder}`.blue());
         this.dir = process.cwd();
         this.srv = http.createServer();
