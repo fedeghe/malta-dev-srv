@@ -11,9 +11,11 @@ This plugin can be started on: **.html**
 `> npm i -g malta-dev-srv`  
 
 It starts a really raw simple http server on the host and port needed, default values are the following:
-- **host**: localhost
-- **port**: 3001
+- **host**: _localhost_
+- **port**: _3001_
 - **folder**: the one where malta is started from
+- **browser**: _true_; set it to false to not open automatically the browser  
+
 
 
 

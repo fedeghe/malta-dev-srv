@@ -27,22 +27,27 @@ class server {
         child_process.exec(start + ' ' + url);
     }
 
-    init (port, host, folder) {
+    init (port, host, folder, options) {
         this.started = true;
         const url = `http://${host}:${port}`;
         console.log(`> ${this.name.blue()} started on port # ${port} (${url})`);
-        this.open(url)
+        options.browser && this.open(url);
         console.log(`> webroot is ${folder}`.blue());
         this.dir = process.cwd();
         this.srv = http.createServer();
         return this;
     }
 
-    staticStart (port, host, folder, entryPoint, entryFree) {
-        if (this.started) return;
-        this.init(port, host, folder);
+    staticStart (params) {
+        const {
+                port, host, folder, options = {}
+            } = params,
+            {staticEp, staticFree} = options;
 
-        const rx = new RegExp('^/' + entryFree + '/');
+        if (this.started) return;
+        this.init(port, host, folder, options);
+
+        const rx = new RegExp('^/' + staticFree + '/');
         this.srv.on('request', (req, res) => {
             setHeader(res);
             try {
@@ -50,7 +55,7 @@ class server {
                     lookup = parsedUrl.pathname,
                     where = path.join(
                         folder,
-                        lookup.match(rx) ? lookup : '/' + entryPoint
+                        lookup.match(rx) ? lookup : '/' + staticEp
                     );
 
                 res.end(fs.readFileSync(where));
@@ -63,9 +68,10 @@ class server {
         this.srv.listen(parseInt(port));
     }
 
-    start (port, host, folder) {
+    start (params) {
+        var {port, host, folder, options} = params;
         if (this.started) return;
-        let self = this.init(port, host, folder);
+        let self = this.init(port, host, folder, options);
 
         this.srv.on('request', (req, res) => {
             setHeader(res);

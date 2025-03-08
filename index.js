@@ -8,13 +8,24 @@ function malta_dev_srv(obj, options = {}) {
         folder = path.resolve(process.cwd(), options.folder || './'),
         host = options.host || '127.0.0.1',
         port = options.port || 3001;
+
+    let browser = true,
+        msg = '';
         
-    let msg = '';
+    if ('browser' in options) browser = !!options.browser;
 
     if (options.staticEp) {
-        server.staticStart(port, host, folder, options.staticEp, options.staticFree);
+        server.staticStart({
+            port, host, folder,
+            options: {
+                staticEp: options.staticEp,
+                staticFree: options.staticFree
+            }
+        });
     } else {
-        server.start(port, host, folder);
+        server.start({
+            port, host, folder, options: { browser }
+        });
     }
 
     return (solve, reject) => {
